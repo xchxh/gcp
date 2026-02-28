@@ -18,9 +18,9 @@
 在 Cloud Shell 服务器运行
 ```bash
 # 初次运行
-git clone https://github.com/fatekey/gcp_free && cd gcp_free && bash start.sh
+git clone https://github.com/xchxh/gcp && cd gcp && bash start.sh
 # 再次运行
-cd ~/gcp_free && bash start.sh
+cd ~/gcp && bash start.sh
 ```
 
 ## 环境要求
