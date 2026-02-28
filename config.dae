@@ -21,15 +21,20 @@ group {
         policy: min
     }
 }
-routing{
+routing {
     pname(NetworkManager) -> direct
-    dip(geoip:cdnip) -> my_group
+    pname(agent) -> direct            #komari监控放行，如果代理后IP地区显示不一样强迫症可加，不然去掉就行
+    dip(geoip:cloudflare) -> my_group            #代理cloudflare的IP
+    dip(geoip:fastly) -> my_group            #代理fastly的IP
+    # dip(
+    #     这里输入“,”隔开IP，cloudflare和fastly可不用填写            #dae代理组内的IP
+    # ) -> my_group
 
     fallback: direct
 }
 node{
     # 在下面填入你的节点链接。
-    # free1:'vless://xxx'
+    free1:'vless://a691dcb6-cb08-4aaa-b9d3-789535caf88d@proxyip.us.cmliussss.net:443?encryption=none&security=tls&sni=vless.tunl.eu.org&fp=firefox&type=ws&host=vless.tunl.eu.org&path=%2F#cf'
 }
 
 subscription {
