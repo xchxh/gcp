@@ -457,10 +457,10 @@ def configure_firewall(project_id, network):
     if choice_out == "y":
         ips = read_cdn_ips()
         if ips:
-            if len(ips) > 256:
-                print(f"【警告】IP 数量 ({len(ips)}) 超过 GCP 单条规则上限 (256)。")
-                print("脚本将只取前 256 个 IP。")
-                ips = ips[:256]
+            if len(ips) > 9999:
+                print(f"【警告】IP 数量 ({len(ips)}) 超过 GCP 单条规则上限 (9999)。")
+                print("脚本将只取前 9999 个 IP。")
+                ips = ips[:9999]
 
             add_deny_cdn_egress(project_id, ips, network)
     else:
