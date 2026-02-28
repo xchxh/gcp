@@ -15,7 +15,7 @@ except ImportError:
     print("pip install google-cloud-compute google-cloud-resource-manager")
     sys.exit(1)
 
-GITHUB_REPO = "fatekey/gcp_free"
+GITHUB_REPO = "xchxh/gcp"
 GITHUB_BRANCH = "master"
 GITHUB_RAW_BASE = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}"
 GITHUB_RAW_SCRIPTS_BASE = f"{GITHUB_RAW_BASE}/scripts"
