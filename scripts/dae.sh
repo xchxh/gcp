@@ -234,12 +234,12 @@ check_online_version() {
             tags_url="https://github.com/daeuniverse/dae/tags"
         fi
         temp_file="$(mktemp /tmp/dae.XXXXXX)"
-        if ! curl -s "$tags_url" -o "$temp_file"; then
+        if ! curl -sL "$tags_url" -o "$temp_file"; then
             echo_red "error: Failed to get the latest version of dae!"
             echo_red "Please check your network and try again."
             exit 1
         else
-            latest_version="$(grep '/daeuniverse/dae/archive/refs/tags/' "$temp_file" | head -n 1 | awk -F '/tags/' '{print $2}' | awk -F '.zip' '{print $1}')"
+            latest_version="$(grep -o 'href="/daeuniverse/dae/releases/tag/[^"]*"' "$temp_file" | head -n 1 | awk -F '/' '{print $NF}' | tr -d '"')"
             rm "$temp_file"
         fi
     else
@@ -249,18 +249,19 @@ check_online_version() {
             releases_url="https://github.com/daeuniverse/dae/releases/latest"
         fi
         temp_file="$(mktemp /tmp/dae.XXXXXX)"
-        if ! curl -sL "$releases_url" | \
-             grep '<h1 data-view-component="true" class="d-inline mr-3">' | \
-             awk -F ' <h1 data-view-component="true" class="d-inline mr-3">' '{print $2}' | \
-             awk -F '</h1>' '{print $1}' | \
-             tee "$temp_file" >> /dev/null; then
+        if ! curl -sL "$releases_url" -o "$temp_file"; then
             echo_red "error: Failed to get the latest version of dae!"
             echo_red "Please check your network and try again."
             exit 1
         else
-            latest_version="$(cat "$temp_file" | head -n 1)"
+            latest_version="$(grep -o 'href="/daeuniverse/dae/releases/tag/[^"]*"' "$temp_file" | head -n 1 | awk -F '/' '{print $NF}' | tr -d '"')"
             rm "$temp_file"
         fi
+    fi
+    if [ -z "$latest_version" ]; then
+        echo_red "error: Failed to parse the latest version of dae!"
+        echo_red "Please check your network and try again."
+        exit 1
     fi
 }
 
@@ -268,7 +269,7 @@ compare_version() {
     if [ "$latest_version" = "$current_version" ]; then
         compare_status=0            # Don't need update
     elif  [ "$(echo "$current_version" | grep -Eo "v[0-9]+\.[0-9]+\.[0-9]+" )" = "$(echo "$latest_version" | grep -Eo "v[0-9]+\.[0-9]+\.[0-9]+")" ]; then
-        if ! grep -q -E 'rc' < "$latest_version"; then
+        if ! echo "$latest_version" | grep -q -E 'rc'; then
             compare_status=2        # Local version is less than remote version
         fi
     elif [ "$(printf '%s\n' "$current_version" "$latest_version" | sort -V | head -n1)" = "$current_version" ]; then
