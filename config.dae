@@ -34,7 +34,7 @@ routing {
 }
 node{
     # 在下面填入你的节点链接。
-    free1:'vless://a691dcb6-cb08-4aaa-b9d3-789535caf88d@proxyip.us.cmliussss.net:443?encryption=none&security=tls&sni=vless.tunl.eu.org&fp=firefox&type=ws&host=vless.tunl.eu.org&path=%2F#cf'
+    free1:'vless://1a25f8ad-cad2-4e93-b5bf-34e42bcac02a@proxyip.us.cmliussss.net:443?encryption=none&security=tls&sni=sni.111000.indevs.in&fp=firefox&type=ws&host=sni.111000.indevs.in&path=%2F#00'
 }
 
 subscription {
